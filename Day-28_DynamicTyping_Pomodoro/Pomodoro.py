@@ -1,5 +1,7 @@
 
 from tkinter import *
+import sys
+import os
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -12,6 +14,14 @@ LONG_BREAK_MIN = 20
 reps = 1
 timer = None   #we need to be able to access the timer vaiable outside of the count_down function, so we declare it as a global variable with
                #value of None so that we define its value in the count_down function but can access it in the reset_timer function
+
+
+#----For EXE-----#
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
@@ -89,7 +99,7 @@ window.config(padx=100,pady=100, bg = YELLOW)
 
 #Image 
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
-tomato_img = PhotoImage(file="tomato.png") #Turns our image into a PhotoImage class
+tomato_img = PhotoImage(file=resource_path("tomato.png")) #Turns our image into a PhotoImage class
 canvas.create_image(100,112, image = tomato_img) #must pass a image of type PhotoImage into the image variable
 timer_text = canvas.create_text(100,130, text="25:00", fill="white",font=(FONT_NAME, 35, "bold"))
 canvas.grid(column=1,row=1)
@@ -114,4 +124,4 @@ checkmark.config(fg=GREEN, bg=YELLOW, font=(15))
 checkmark.grid(column=1,row=3)
 
 
-window.mainloop()   #since we have mainloop we cant always do another loop or else it may not reachy the main loop
+window.mainloop()   #since we have mainloop we cant always do another loop or else it may not reachy the main loop. so we work around using the .after method which allows us to call a function after a certain amount of time. This is how we implement the countdown timer.
