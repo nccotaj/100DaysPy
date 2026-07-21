@@ -2,6 +2,9 @@
 from tkinter import *
 import sys
 import os
+import winsound
+from plyer import notification
+
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -22,6 +25,17 @@ def resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
+
+
+
+#-----FOR NOTIFICATION-----#
+def show_notification(title, message):
+    notification.notify(
+        title=title,
+        message=message,
+        timeout=10  # notification disappears after 10 seconds
+    )
+
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
@@ -79,6 +93,12 @@ def count_down(count):
     else:
         reps += 1
         
+        winsound.MessageBeep()  #plays a sound when the timer is done
+        if reps % 2 == 0:
+            show_notification("Pomodoro", "Work session done! Time for a break 🍅")
+        else:
+            show_notification("Pomodoro", "Break is over! Time to work 🍅")
+
         marks = ""
         work_sessions = int(reps/2)
         for x in range(work_sessions):
